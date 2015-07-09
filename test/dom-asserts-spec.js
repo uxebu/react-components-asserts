@@ -10,16 +10,22 @@ function domNodesFromComponent(component) {
 describe('dom asserts', function() {
   
   describe('find a DOM node with `attr="value"`', function() {
-    it('finds a `className` in one dom node', function() {
+    it('finds a `className` in one DOM node', function() {
       const component = <b className="x"></b>;
-      assert.ok(componentHasDomNodeWithAttrAndValue(component, 'className', 'x'));
+      assert.ok(rendersDomNodeWithAttrAndValue(component, 'className', 'x'));
+    });
+    it('finds a `className` in one DOM node of many', function() {
+      const component = <div><b className="x"></b></div>;
+      assert.ok(rendersDomNodeWithAttrAndValue(component, 'className', 'x'));
     });
   });
 });
 
-function componentHasDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
-  let nodes = domNodesFromComponent(component);
-  return nodes[0].props[attributeName] === expectedValue;
+function rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
+  let domNodes = domNodesFromComponent(component);
+  return domNodes
+    .map(({props}) => props[attributeName])
+    .some(value => value === expectedValue)
 }
 
 
