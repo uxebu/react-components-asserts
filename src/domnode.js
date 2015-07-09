@@ -4,6 +4,9 @@ export default class DomNode {
     domNode._renderedNode = renderedNode;
     return domNode;
   }
+  get type() {
+    return this._renderedNode.type;
+  }
   hasAttribute(attributeName) {
     return attributeName in this._renderedNode.props;
   }
@@ -13,8 +16,5 @@ export default class DomNode {
   hasAttributeWithValue(attributeName, value) {
     return this.hasAttribute(attributeName) && 
       this.getAttributeValue(attributeName) === value;
-  }
-  get type() {
-    return this._renderedNode.type;
   }
 }
