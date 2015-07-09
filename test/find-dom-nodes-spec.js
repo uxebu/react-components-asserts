@@ -83,13 +83,6 @@ describe('find dom nodes', function() {
   
 });
 
-function moreChildren(tree) {
-console.log(tree);  
-  if (tree.props && tree.props.children) {
-    console.log(tree.props.children);
-  }
-  return [...tree];
-}
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
 const flatten = (arr, merged) => [...arr, ...merged];
 function allChildrenFromRenderedTree({props = {}}) {
