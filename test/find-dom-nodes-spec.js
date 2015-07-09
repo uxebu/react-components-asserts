@@ -13,6 +13,11 @@ describe('find dom nodes', function() {
       let renderedTree = render(<div><b></b></div>);
       assert.equal(domNodesFromRenderedTree(renderedTree).length, 2);
     });
+    it('inner node is NOT a DOM node', function() {
+      class NotDomNode extends React.Component { render() { return null; } }
+      let renderedTree = render(<div><NotDomNode></NotDomNode></div>);
+      assert.equal(domNodesFromRenderedTree(renderedTree).length, 1);
+    });
   });
   
   describe('returns all nodes', function() {
@@ -64,8 +69,13 @@ function allChildrenFromRenderedTree(children) {
   }
   return [children, ...allChildrenFromRenderedTree(children.props.children)];
 }
-function domNodesFromRenderedTree(tree) {
+function allNodes(tree) {
   return [tree, ...allChildrenFromRenderedTree(tree.props.children)];
+}
+const isDomNode = (node) => node.type in React.DOM;
+function domNodesFromRenderedTree(tree) {
+  return allNodes(tree)
+    .filter(isDomNode);
 }
 
 function render(componentToRender) {
