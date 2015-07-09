@@ -1,6 +1,17 @@
 import assert from 'assert';
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
+import {fromRenderedTree} from '../src/domnodes.js';
+
+function domNodesFromRenderedTree(tree) {
+  return fromRenderedTree(tree).nodes;
+}
+
+function render(componentToRender) {
+  const shallowRenderer = TestUtils.createRenderer();
+  shallowRenderer.render(componentToRender);
+  return shallowRenderer.getRenderOutput();
+}
 
 describe('find dom nodes', function() {
   
@@ -82,42 +93,3 @@ describe('find dom nodes', function() {
   });
   
 });
-
-const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
-const flatten = (arr, merged) => [...arr, ...merged];
-function allChildrenFromRenderedTree({props = {}}) {
-  if (!props.children) {
-    return [];
-  }
-  let children = ensureToBeArray(props.children);
-  return [...children, ...children.map(allChildrenFromRenderedTree).reduce(flatten)];
-}
-
-function allNodes(tree) {
-  return [tree, ...allChildrenFromRenderedTree(tree)];
-}
-
-const isDomNode = (node) => node.type in React.DOM;
-function domNodesFromRenderedTree(tree) {
-  return allNodes(tree)
-    .filter(isDomNode);
-}
-
-function render(componentToRender) {
-  const shallowRenderer = TestUtils.createRenderer();
-  shallowRenderer.render(componentToRender);
-  return shallowRenderer.getRenderOutput();
-}
-
-
-//rendersDomNodeAttributeWithValue
-//rendersDomNodeWithInnerText
-
-//return (
-//  <div className="email-item pure-g">
-//    <a className="pure-u-3-4" href={newUrl}>
-//      <h4 className="email-subject">{name}</h4>
-//      <p className="email-desc">{description}</p>
-//    </a>
-//  </div>
-//);
