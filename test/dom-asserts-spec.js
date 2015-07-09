@@ -11,9 +11,13 @@ function domNodesFromComponent(component) {
 describe('dom asserts', function() {
   
   describe('find a DOM node with `attr="value"`', function() {
+    it('finds none', function() {
+      const component = <b></b>;
+      assert.equal(rendersDomNodeWithAttrAndValue(component, 'className', 'x'), false);
+    });
     it('finds a `className` in one DOM node', function() {
       const component = <b className="x"></b>;
-      assert.ok(rendersDomNodeWithAttrAndValue(component, 'className', 'x'));
+      assert.equal(rendersDomNodeWithAttrAndValue(component, 'className', 'x'), true);
     });
     it('finds a `className` in one DOM node of many', function() {
       const component = <div><b className="x"></b></div>;
