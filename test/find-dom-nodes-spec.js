@@ -4,7 +4,7 @@ const TestUtils = React.addons.TestUtils;
 import {fromComponent} from '../src/domnodes.js';
 
 function domNodesFromComponent(component) {
-  return fromComponent(component).nodes;
+  return fromComponent(component).domNodes;
 }
 
 describe('find dom nodes', function() {

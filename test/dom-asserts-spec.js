@@ -5,7 +5,9 @@ import {fromComponent} from '../src/domnodes.js';
 import DomNode from '../src/domnode.js';
 
 function domNodesFromComponent(component) {
-  return fromComponent(component).nodes;
+  return fromComponent(component)
+    .domNodes
+    .map(domNode => DomNode.fromRenderedNode(domNode));
 }
 
 describe('dom asserts', function() {
@@ -23,7 +25,7 @@ describe('dom asserts', function() {
 });
 
 function rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
-  let domNodes = domNodesFromComponent(component).map(domNode => DomNode.fromRenderedNode(domNode));
+  let domNodes = domNodesFromComponent(component);
   return domNodes
     .some(domNode => domNode.hasAttributeWithValue(attributeName, expectedValue))
 }
