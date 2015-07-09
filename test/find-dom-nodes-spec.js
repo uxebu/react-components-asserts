@@ -13,7 +13,7 @@ describe('find dom nodes', function() {
       let renderedTree = render(<div><b></b></div>);
       assert.equal(domNodesFromRenderedTree(renderedTree).length, 2);
     });
-    it('inner node is NOT a DOM node', function() {
+    it('if inner node is NOT a DOM node, it does not count', function() {
       class NotDomNode extends React.Component { render() { return null; } }
       let renderedTree = render(<div><NotDomNode></NotDomNode></div>);
       assert.equal(domNodesFromRenderedTree(renderedTree).length, 1);
@@ -55,23 +55,55 @@ describe('find dom nodes', function() {
         it('second node is the 1st node on the first level', () => { assert.equal(domNodes[1].type, 'b'); });
         it('third node is the 2nd node on the first level', () => { assert.equal(domNodes[2].type, 'span'); });
       });
+      describe('many DOM nodes, various nestings', function() {
+        let domNodes;
+        beforeEach(function() {
+          let renderedTree = render(
+            <div>
+              <div>
+                <span></span><span></span>
+              </div>
+              <span></span>
+              <span><b><a></a></b></span>
+            </div>
+          );
+          domNodes = domNodesFromRenderedTree(renderedTree);
+        });
+        it('the count is correct', () => { assert.equal(domNodes.length, 8); });
+        it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
+        it('2nd node is `div`', () => { assert.equal(domNodes[1].type, 'div'); });
+        it('3rd node is `span`', () => { assert.equal(domNodes[2].type, 'span'); });
+        it('4th node is `span`', () => { assert.equal(domNodes[3].type, 'span'); });
+        it('5th node is `span`', () => { assert.equal(domNodes[4].type, 'span'); });
+        it('6th node is `span`', () => { assert.equal(domNodes[5].type, 'span'); });
+        it('7th node is `b`', () => { assert.equal(domNodes[6].type, 'b'); });
+      });
     });
   });
   
 });
 
-function allChildrenFromRenderedTree(children) {
-  if (!children) {
+function moreChildren(tree) {
+console.log(tree);  
+  if (tree.props && tree.props.children) {
+    console.log(tree.props.children);
+  }
+  return [...tree];
+}
+const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
+const flatten = (arr, merged) => [...arr, ...merged];
+function allChildrenFromRenderedTree({props = {}}) {
+  if (!props.children) {
     return [];
   }
-  if (Array.isArray(children)) {
-    return [...children];
-  }
-  return [children, ...allChildrenFromRenderedTree(children.props.children)];
+  let children = ensureToBeArray(props.children);
+  return [...children, ...children.map(allChildrenFromRenderedTree).reduce(flatten)];
 }
+
 function allNodes(tree) {
-  return [tree, ...allChildrenFromRenderedTree(tree.props.children)];
+  return [tree, ...allChildrenFromRenderedTree(tree)];
 }
+
 const isDomNode = (node) => node.type in React.DOM;
 function domNodesFromRenderedTree(tree) {
   return allNodes(tree)
