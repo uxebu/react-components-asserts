@@ -7,4 +7,7 @@ export default class DomNode {
   hasAttributeWithValue(attributeName, value) {
     return this._renderedNode.props[attributeName] === value;
   }
+  get type() {
+    return this._renderedNode.type;
+  }
 }

@@ -1,11 +1,14 @@
+import DomNode from './domnode.js';
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
 
 export default class DomNodes {
   static fromRenderedTree(tree) {
-    let domNodes = new DomNodes();
-    domNodes.domNodes = allNodes(tree).filter(isDomNode);
-    return domNodes;
+    let instance = new DomNodes();
+    instance.domNodes = allNodes(tree)
+      .filter(isDomNode)
+      .map(domNode => DomNode.fromRenderedNode(domNode));
+    return instance;
   }
   
   static fromComponent(component) {

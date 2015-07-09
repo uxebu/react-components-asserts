@@ -5,9 +5,7 @@ import {fromComponent} from '../src/domnodes.js';
 import DomNode from '../src/domnode.js';
 
 function domNodesFromComponent(component) {
-  return fromComponent(component)
-    .domNodes
-    .map(domNode => DomNode.fromRenderedNode(domNode));
+  return fromComponent(component).domNodes;
 }
 
 describe('dom asserts', function() {
