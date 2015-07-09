@@ -1,0 +1,16 @@
+{
+  "name": "react-components-asserts",
+  "version": "1.0.0",
+  "description": "Asserts for react.js components.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel/register"
+  },
+  "keywords": [
+    "react",
+    "assert",
+    "component"
+  ],
+  "author": "Wolfram Kriesing, uxebu",
+  "license": "MIT"
+}
