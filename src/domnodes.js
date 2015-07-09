@@ -1,12 +1,12 @@
-import DomNode from './domnode.js';
 import React from 'react/addons';
+import DomNode from './domnode.js';
 const TestUtils = React.addons.TestUtils;
 
 export default class DomNodes {
   static fromRenderedTree(tree) {
     let instance = new DomNodes();
     instance.domNodes = allNodes(tree)
-      .filter(isDomNode)
+      .filter(DomNode.isDomNode)
       .map(domNode => DomNode.fromRenderedNode(domNode));
     return instance;
   }
@@ -24,7 +24,6 @@ function render(componentToRender) {
 
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
 const flatten = (arr, merged) => [...arr, ...merged];
-const isDomNode = (node) => node.type in React.DOM;
 
 function allChildren({props = {}}) {
   if (!props.children) {
