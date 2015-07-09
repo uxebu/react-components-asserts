@@ -1,4 +1,5 @@
 import React from 'react/addons';
+const TestUtils = React.addons.TestUtils;
 
 export default class DomNodes {
   static fromRenderedTree(tree) {
@@ -6,6 +7,16 @@ export default class DomNodes {
     domNodes.nodes = allNodes(tree).filter(isDomNode);
     return domNodes;
   }
+  
+  static fromComponent(component) {
+    return DomNodes.fromRenderedTree(render(component));
+  }
+}
+
+function render(componentToRender) {
+  const shallowRenderer = TestUtils.createRenderer();
+  shallowRenderer.render(componentToRender);
+  return shallowRenderer.getRenderOutput();
 }
 
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];

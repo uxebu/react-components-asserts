@@ -1,47 +1,37 @@
 import assert from 'assert';
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
-import {fromRenderedTree} from '../src/domnodes.js';
+import {fromComponent} from '../src/domnodes.js';
 
-function domNodesFromRenderedTree(tree) {
-  return fromRenderedTree(tree).nodes;
-}
-
-function render(componentToRender) {
-  const shallowRenderer = TestUtils.createRenderer();
-  shallowRenderer.render(componentToRender);
-  return shallowRenderer.getRenderOutput();
+function domNodesFromComponent(component) {
+  return fromComponent(component).nodes;
 }
 
 describe('find dom nodes', function() {
   
   describe('finds the right number of nodes', function() {
     it('one', function() {
-      let renderedTree = render(<b></b>);
-      assert.equal(domNodesFromRenderedTree(renderedTree).length, 1);
+      assert.equal(domNodesFromComponent(<b></b>).length, 1);
     });
     it('two nodes, one nesting level deep', function() {
-      let renderedTree = render(<div><b></b></div>);
-      assert.equal(domNodesFromRenderedTree(renderedTree).length, 2);
+      assert.equal(domNodesFromComponent(<div><b></b></div>).length, 2);
     });
     it('if inner node is NOT a DOM node, it does not count', function() {
       class NotDomNode extends React.Component { render() { return null; } }
-      let renderedTree = render(<div><NotDomNode></NotDomNode></div>);
-      assert.equal(domNodesFromRenderedTree(renderedTree).length, 1);
+      let component = <div><NotDomNode></NotDomNode></div>;
+      assert.equal(domNodesFromComponent(component).length, 1);
     });
   });
   
   describe('returns all nodes', function() {
     it('for one node', function() {
-      let renderedTree = render(<b></b>);
-      assert.equal(domNodesFromRenderedTree(renderedTree)[0].type, 'b');
+      assert.equal(domNodesFromComponent(<b></b>)[0].type, 'b');
     });
     describe('nested nodes', function() {
       describe('two nodes, one level nesting', function() {
         let domNodes;
         beforeEach(function() {
-          let renderedTree = render(<div><b></b></div>);
-          domNodes = domNodesFromRenderedTree(renderedTree);
+          domNodes = domNodesFromComponent(<div><b></b></div>);
         });
         it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
         it('second node is the inner node', () => { assert.equal(domNodes[1].type, 'b'); });
@@ -49,8 +39,8 @@ describe('find dom nodes', function() {
       describe('three nodes, two levels nesting', function() {
         let domNodes;
         beforeEach(function() {
-          let renderedTree = render(<div><b><span></span></b></div>);
-          domNodes = domNodesFromRenderedTree(renderedTree);
+          let component = <div><b><span></span></b></div>;
+          domNodes = domNodesFromComponent(component);
         });
         it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
         it('second node is the node on the first level', () => { assert.equal(domNodes[1].type, 'b'); });
@@ -59,8 +49,8 @@ describe('find dom nodes', function() {
       describe('three nodes, one level nesting', function() {
         let domNodes;
         beforeEach(function() {
-          let renderedTree = render(<div><b></b><span></span></div>);
-          domNodes = domNodesFromRenderedTree(renderedTree);
+          let renderedTree = <div><b></b><span></span></div>;
+          domNodes = domNodesFromComponent(renderedTree);
         });
         it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
         it('second node is the 1st node on the first level', () => { assert.equal(domNodes[1].type, 'b'); });
@@ -69,16 +59,14 @@ describe('find dom nodes', function() {
       describe('many DOM nodes, various nestings', function() {
         let domNodes;
         beforeEach(function() {
-          let renderedTree = render(
+          let renderedTree = <div>
             <div>
-              <div>
-                <span></span><span></span>
-              </div>
-              <span></span>
-              <span><b><a></a></b></span>
+              <span></span><span></span>
             </div>
-          );
-          domNodes = domNodesFromRenderedTree(renderedTree);
+            <span></span>
+            <span><b><a></a></b></span>
+          </div>;
+          domNodes = domNodesFromComponent(renderedTree);
         });
         it('the count is correct', () => { assert.equal(domNodes.length, 8); });
         it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
