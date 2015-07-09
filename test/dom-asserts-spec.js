@@ -2,6 +2,7 @@ import assert from 'assert';
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
 import {fromComponent} from '../src/domnodes.js';
+import DomNode from '../src/domnode.js';
 
 function domNodesFromComponent(component) {
   return fromComponent(component).nodes;
@@ -22,10 +23,9 @@ describe('dom asserts', function() {
 });
 
 function rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
-  let domNodes = domNodesFromComponent(component);
+  let domNodes = domNodesFromComponent(component).map(domNode => DomNode.fromRenderedNode(domNode));
   return domNodes
-    .map(({props}) => props[attributeName])
-    .some(value => value === expectedValue)
+    .some(domNode => domNode.hasAttributeWithValue(attributeName, expectedValue))
 }
 
 
