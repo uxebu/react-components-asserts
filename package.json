@@ -2,7 +2,7 @@
   "name": "react-components-asserts",
   "version": "1.0.0",
   "description": "Asserts for react.js components using the shallow renderer.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha --compilers js:babel/register"
   },
