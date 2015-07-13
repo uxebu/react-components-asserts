@@ -82,14 +82,22 @@ describe('find dom nodes', function() {
 
   describe('finds in nested components', function() {
     class InnerComponent extends React.Component { render() { return <span></span>; } }
-    it('one nesting level deep', function() {
-      assert.equal(domNodesFromComponent(<b><InnerComponent/></b>).length, 2);
+    describe('one nesting level deep', function() {
+      it('inside is a react component', function() {
+        assert.equal(domNodesFromComponent(<b><InnerComponent/></b>).length, 2);
+      });
+      it('different children', function() {
+        assert.equal(domNodesFromComponent(<b><b></b><InnerComponent/></b>).length, 3);
+      });
+      it('multiple different children', function() {
+        assert.equal(domNodesFromComponent(<b><b/><InnerComponent/><b/><InnerComponent/></b>).length, 5);
+      });
     });
-    it('one nesting level, different children', function() {
-      assert.equal(domNodesFromComponent(<b><b></b><InnerComponent/></b>).length, 3);
-    });
-    it('one nesting level, multiple different children', function() {
-      assert.equal(domNodesFromComponent(<b><b/><InnerComponent/><b/><InnerComponent/></b>).length, 5);
+    
+    describe('multiple nesting levels', function() {
+      it('two levels', function() {
+        assert.equal(domNodesFromComponent(<b><span><InnerComponent/></span></b>).length, 3);
+      });
     });
   });
   
