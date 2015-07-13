@@ -31,8 +31,8 @@ function renderRecursively(componentToRender) {
   if (rendered.props  && rendered.props.children){
     if (Array.isArray(rendered.props.children)) {
       rendered.props.children = rendered.props.children.map(_renderIfNeeded);
-    } else if (!DomNode.isDomNode(rendered.props.children)) {
-      rendered.props.children = _renderIfNeeded(rendered.props.children);
+    } else {
+      rendered.props.children = [rendered.props.children].map(_renderIfNeeded)[0];
     }
   }
   return rendered;
