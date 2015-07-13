@@ -18,6 +18,29 @@ describe('renders(No)DomNodeWithTextContent', function() {
         rendersNoDomNodeWithTextContent(component, 'bold');
       });
     });
+
+    describe('error message', function() {
+      let errorMessage;
+      const component = <b>bold</b>;
+      beforeEach(function() {
+        try {
+          rendersNoDomNodeWithTextContent(component, 'bold');
+        } catch (error) {
+          errorMessage = error.message;
+        }
+      });
+      it('starts with `Did NOT expect`', function() {
+        assert.ok(errorMessage.startsWith('Did NOT expect'), 'Doesnt start with `Did NOT expect`.');
+      });
+      it('contains the component name in backticks', function() {
+        const name = component.type;
+        assert.ok(errorMessage.includes(`\`${name}\``), 'Doesn`t contain `<component name>`.');
+      });
+      it('contains `bold` in backticks', function() {
+        assert.ok(errorMessage.includes('`bold`'), 'Doesn`t contain `\`bold\``.');
+      });
+    });
+
   });
   
   describe('finds some', function() {
@@ -47,7 +70,7 @@ describe('renders(No)DomNodeWithTextContent', function() {
         const name = component.type;
         assert.ok(errorMessage.includes(`\`${name}\``), 'Doesn`t contain `<component name>`.');
       });
-      it('contains the `bold` in backticks', function() {
+      it('contains `bold` in backticks', function() {
         assert.ok(errorMessage.includes('`bold`'), 'Doesn`t contain `\`bold\``.');
       });
     });

@@ -18,7 +18,8 @@ export function rendersDomNodeWithTextContent(component, textContent) {
 }
 export function rendersNoDomNodeWithTextContent(component, textContent) {
   const found = _findsOneWithTextContent(component, textContent);
-  assert.equal(found, false);
+  const message = `Did NOT expect \`${component.type.name || component.type}\` to contain text content \`${textContent}\`.`;
+  assert.equal(found, false, message);
 }
 
 
