@@ -29,6 +29,28 @@ describe('renders(No)DomNodeWithTextContent', function() {
       const component = <b>bold<b/></b>;
       rendersDomNodeWithTextContent(component, 'bold');
     });
+
+    describe('error message', function() {
+      let errorMessage;
+      const component = <b></b>;
+      beforeEach(function() {
+        try {
+          rendersDomNodeWithTextContent(component, 'bold');
+        } catch (error) {
+          errorMessage = error.message;
+        }
+      });
+      it('starts with `Expected`', function() {
+        assert.ok(errorMessage.startsWith('Expected'), 'Doesnt start with `Expected`.');
+      });
+      it('contains the component name in backticks', function() {
+        const name = component.type;
+        assert.ok(errorMessage.includes(`\`${name}\``), 'Doesn`t contain `<component name>`.');
+      });
+      it('contains the `bold` in backticks', function() {
+        assert.ok(errorMessage.includes('`bold`'), 'Doesn`t contain `\`bold\``.');
+      });
+    });
   });
   
 });

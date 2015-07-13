@@ -12,8 +12,9 @@ export function rendersNoDomNodeWithAttrAndValue(component, attributeName, expec
   assert.equal(anyFound, false);
 }
 export function rendersDomNodeWithTextContent(component, textContent) {
-  var found = _findsOneWithTextContent(component, textContent);
-  assert.equal(found, true);
+  const found = _findsOneWithTextContent(component, textContent);
+  const message = `Expected \`${component.type.name || component.type}\` to contain text content \`${textContent}\`.`;
+  assert.equal(found, true, message);
 }
 export function rendersNoDomNodeWithTextContent(component, textContent) {
   const found = _findsOneWithTextContent(component, textContent);
