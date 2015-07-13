@@ -4,7 +4,7 @@ import DomNode from './domnode.js';
 
 export function rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
   const found = _rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue);
-  var message = `Expected \`${component.type.name || component.type}\` to render a DOM node with the attribute \`${attributeName}\` with value \`${expectedValue}\``;
+  const message = `Expected \`${component.type.name || component.type}\` to render a DOM node with the attribute \`${attributeName}\` with value \`${expectedValue}\``;
   assert.equal(found, true, message);
 }
 export function rendersNoDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
@@ -16,7 +16,7 @@ export function rendersDomNodeWithTextContent(component, textContent) {
   assert.equal(found, true);
 }
 export function rendersNoDomNodeWithTextContent(component, textContent) {
-  var found = _findsOneWithTextContent(component, textContent);
+  const found = _findsOneWithTextContent(component, textContent);
   assert.equal(found, false);
 }
 
