@@ -1,6 +1,5 @@
-import React from 'react/addons';
 import DomNode from './domnode.js';
-const TestUtils = React.addons.TestUtils;
+import ReactComponent from './reactcomponent.js';
 
 export default class DomNodes {
   static fromRenderedTree(tree) {
@@ -32,19 +31,10 @@ function render(componentToRender) {
   if (DomNode.isDomNode(componentToRender)) {
     return componentToRender;
   }
-  if (!isReactComponent(componentToRender)) {
-    return componentToRender;
+  if (ReactComponent.isReactComponent(componentToRender)) {
+    return ReactComponent.render(componentToRender);
   }
-  const shallowRenderer = TestUtils.createRenderer();
-  shallowRenderer.render(componentToRender);
-  return shallowRenderer.getRenderOutput();
-}
-function isReactComponent(maybeComponent) {
-  if (typeof maybeComponent.type !== 'function') {
-    return false;
-  }
-  const prototype = Reflect.getPrototypeOf(maybeComponent.type);
-  return prototype.name === 'ReactComponent';
+  return componentToRender;
 }
 
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
