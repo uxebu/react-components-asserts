@@ -25,13 +25,19 @@ scope of this project.
 ```jsx
 class Article extends React.Component {
   render() {
-    const price = 42;
     return (
       <div id="someLayout">
         <div id="moreLayout-irrelevant-for-our-test">
-          <a href="">{price}</a>
+          <a href="#some"></a>
         </div>
       </div>
+    );
+  }
+}
+class OtherComp extends React.Component {
+  render() {
+    return (
+      <a className="#some"></a>
     );
   }
 }
@@ -40,7 +46,13 @@ class Article extends React.Component {
 a test could now validate that the price gets rendered at all, as an innerText, like so:
 
 ```js
-it('has a price of 42', function() {
-  rendersDomNodeWithInnerText(<Article />, '42');
+import {rendersDomNodeWithAttrAndValue} from 'react-components-asserts';
+
+it('has an `href=#some`', function() {
+  rendersDomNodeWithAttrAndValue(<Article />, 'href', '#some');
+});
+
+it('also has an `className=#some`', function() {
+  rendersDomNodeWithAttrAndValue(<OtherComp />, 'className', '#some');
 });
 ```
