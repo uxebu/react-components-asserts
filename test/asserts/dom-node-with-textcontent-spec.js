@@ -75,5 +75,13 @@ describe('renders(No)DomNodeWithTextContent', function() {
       });
     });
   });
+
+  describe('finds combined content', function() {
+    it('e.g. <b>({one})</b>', function() {
+      const number = 42;
+      const component = <b>({number})</b>;
+      rendersDomNodeWithTextContent(component, '(42)');
+    });
+  });
   
 });
