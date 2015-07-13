@@ -98,6 +98,11 @@ describe('find dom nodes', function() {
       it('two levels', function() {
         assert.equal(domNodesFromComponent(<b><span><InnerComponent/></span></b>).length, 3);
       });
+      
+      it('multiple nesting of components', function() {
+        class MultiComponent extends React.Component { render() { return <span><InnerComponent/><b/></span>; } }
+        assert.equal(domNodesFromComponent(<b><span><MultiComponent/></span></b>).length, 5);
+      });
     });
   });
   
