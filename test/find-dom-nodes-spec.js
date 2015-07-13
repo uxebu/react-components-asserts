@@ -79,5 +79,12 @@ describe('find dom nodes', function() {
       });
     });
   });
+
+  describe('finds in nested components', function() {
+    it('one nesting level deep', function() {
+      class InnerComponent extends React.Component { render() { return <span></span>; } }
+      assert.equal(domNodesFromComponent(<b><InnerComponent/></b>).length, 2);
+    });
+  });
   
 });

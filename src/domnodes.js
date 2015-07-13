@@ -12,8 +12,23 @@ export default class DomNodes {
   }
   
   static fromComponent(component) {
-    return DomNodes.fromRenderedTree(render(component));
+    return DomNodes.fromRenderedTree(renderRecursively(component));
   }
+}
+
+function renderRecursively(componentToRender) {
+  const rendered = render(componentToRender);
+  if (rendered.props  && 
+    rendered.props.children && 
+    !Array.isArray(rendered.props.children) && 
+    !DomNode.isDomNode(rendered.props.children
+  )) {
+    const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children.type);
+    if (Object.is(prototypeOfComponent, React.Component)) {
+      rendered.props.children = render(rendered.props.children);
+    }
+  }
+  return rendered;
 }
 
 function render(componentToRender) {
