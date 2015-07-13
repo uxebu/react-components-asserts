@@ -16,8 +16,8 @@ It is NOT meant for HTML structure validation. The main intention is to verify t
 certain properties and components are used and receive the correct data.
 Using this may lead to better components design and allows for refactoring components.
 
-Assert functions like `rendersDomNodeWithInnerText(component, innerText)` will ensure that some DOM node
-inside a component has the expected `innerText` where in the HTML structure it is located is not
+Assert functions like `rendersDomNodeWithTextContent(component, textContent)` will ensure that some DOM node
+inside a component has the expected `textContent` where in the HTML structure it is located is not
 scope of this project.
 
 # Example
@@ -25,10 +25,11 @@ scope of this project.
 ```jsx
 class Article extends React.Component {
   render() {
+    const price = 42;
     return (
       <div id="someLayout">
         <div id="moreLayout-irrelevant-for-our-test">
-          <a href="#some"></a>
+          <a href="#some">{price}</a>
         </div>
       </div>
     );
@@ -36,8 +37,9 @@ class Article extends React.Component {
 }
 class OtherComp extends React.Component {
   render() {
+    const price = 42;
     return (
-      <a className="#some"></a>
+      <a className="#some">{price}</a>
     );
   }
 }
@@ -46,7 +48,10 @@ class OtherComp extends React.Component {
 a test could now validate that the price gets rendered at all, as an innerText, like so:
 
 ```js
-import {rendersDomNodeWithAttrAndValue} from 'react-components-asserts';
+import {
+  rendersDomNodeWithAttrAndValue,
+  rendersDomNodeWithTextContent
+} from 'react-components-asserts';
 
 it('has an `href=#some`', function() {
   rendersDomNodeWithAttrAndValue(<Article />, 'href', '#some');
@@ -54,5 +59,14 @@ it('has an `href=#some`', function() {
 
 it('also has an `className=#some`', function() {
   rendersDomNodeWithAttrAndValue(<OtherComp />, 'className', '#some');
+});
+
+describe('renders the price', function() {
+  it('in <Article>', function() {
+    rendersDomNodeWithTextContent(<Article />, '42');
+  });
+  it('in <OtherComp>', function() {
+    rendersDomNodeWithAttrAndValue(<OtherComp />, '42');
+  });
 });
 ```
