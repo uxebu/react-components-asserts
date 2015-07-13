@@ -3,9 +3,9 @@ import assert from 'assert';
 import {
   rendersDomNodeWithAttrAndValue,
   rendersNoDomNodeWithAttrAndValue
-} from '../src/dom-asserts.js';
+} from '../../src/dom-asserts.js';
 
-describe('dom asserts', function() {
+describe('renders(No)DomNodeWithAttrAndValue', function() {
   
   describe('find a DOM node with `attr="value"`', function() {
     it('finds none', function() {
