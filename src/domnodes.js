@@ -32,9 +32,19 @@ function render(componentToRender) {
   if (DomNode.isDomNode(componentToRender)) {
     return componentToRender;
   }
+  if (!isReactComponent(componentToRender)) {
+    return componentToRender;
+  }
   const shallowRenderer = TestUtils.createRenderer();
   shallowRenderer.render(componentToRender);
   return shallowRenderer.getRenderOutput();
+}
+function isReactComponent(maybeComponent) {
+  if (typeof maybeComponent !== 'object') {
+    return false;
+  }
+  const prototype = Reflect.getPrototypeOf(maybeComponent.type);
+  return Object.is(prototype, React.Component);
 }
 
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];

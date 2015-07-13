@@ -82,6 +82,13 @@ describe('find dom nodes', function() {
           it('8th node is `button`', () => { assert.equal(domNodes[7].type, 'button'); });
         });
       });
+
+      describe('node that has an innerText', function() {
+        it('1st node is `b`', () => {
+          let domNodes = domNodesFromComponent(<b>bold</b>);
+          assert.equal(domNodes[0].type, 'b');
+        });
+      });
     });
   });
 
