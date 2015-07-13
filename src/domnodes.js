@@ -45,7 +45,11 @@ function allChildren({props = {}}) {
     return [];
   }
   let children = ensureToBeArray(props.children);
-  return [...children, ...children.map(allChildren).reduce(flatten)];
+  let all = [];
+  for (let i=0, l=children.length; i<l; i++) {
+    all = [...all, children[i], ...ensureToBeArray(children[i]).map(allChildren).reduce(flatten)];
+  }
+  return all;
 }
 
 function allNodes(tree) {

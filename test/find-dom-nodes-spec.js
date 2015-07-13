@@ -56,26 +56,31 @@ describe('find dom nodes', function() {
         it('second node is the 1st node on the first level', () => { assert.equal(domNodes[1].type, 'b'); });
         it('third node is the 2nd node on the first level', () => { assert.equal(domNodes[2].type, 'span'); });
       });
-      describe('many DOM nodes, various nestings', function() {
+      describe.only('many DOM nodes, various nestings', function() {
         let domNodes;
         beforeEach(function() {
-          let renderedTree = <div>
+          let renderedTree = (
             <div>
-              <span></span><span></span>
+              <p>
+                <a/><b/>
+              </p>
+              <span></span>
+              <blockquote><form><button/></form></blockquote>
             </div>
-            <span></span>
-            <span><b><a></a></b></span>
-          </div>;
+          );
           domNodes = domNodesFromComponent(renderedTree);
         });
-        it('the count is correct', () => { assert.equal(domNodes.length, 8); });
-        it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
-        it('2nd node is `div`', () => { assert.equal(domNodes[1].type, 'div'); });
-        it('3rd node is `span`', () => { assert.equal(domNodes[2].type, 'span'); });
-        it('4th node is `span`', () => { assert.equal(domNodes[3].type, 'span'); });
-        it('5th node is `span`', () => { assert.equal(domNodes[4].type, 'span'); });
-        it('6th node is `span`', () => { assert.equal(domNodes[5].type, 'span'); });
-        it('7th node is `b`', () => { assert.equal(domNodes[6].type, 'b'); });
+        describe('the order should be depth first', function() {
+          it('the count is correct', () => { assert.equal(domNodes.length, 8); });
+          it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
+          it('2nd node is `p`', () => { assert.equal(domNodes[1].type, 'p'); });
+          it('3rd node is `a`', () => { assert.equal(domNodes[2].type, 'a'); });
+          it('4th node is `b`', () => { assert.equal(domNodes[3].type, 'b'); });
+          it('5th node is `span`', () => { assert.equal(domNodes[4].type, 'span'); });
+          it('6th node is `blockquote`', () => { assert.equal(domNodes[5].type, 'blockquote'); });
+          it('7th node is `form`', () => { assert.equal(domNodes[6].type, 'form'); });
+          it('8th node is `button`', () => { assert.equal(domNodes[7].type, 'button'); });
+        });
       });
     });
   });
