@@ -17,6 +17,10 @@ export default class DomNode {
   hasAttribute(attributeName) {
     return attributeName in this._renderedNode.props;
   }
+  hasTextContent(textContent) {
+    const children = this._renderedNode.props.children;
+    return children === textContent;
+  }
   getAttributeValue(attributeName) {
     return this._renderedNode.props[attributeName];
   }
