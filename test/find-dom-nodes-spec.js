@@ -104,6 +104,31 @@ describe('find dom nodes', function() {
         assert.equal(domNodesFromComponent(<b><span><MultiComponent/></span></b>).length, 5);
       });
     });
+    
+    describe('ensure order in rendered tree', function() {
+      class FirstLevel extends React.Component { render() { return (<h1></h1>); } }
+      class SecondLevel extends React.Component { render() { return <span><FirstLevel/><b/></span>; } }
+      let domNodes;
+      beforeEach(function() {
+        let renderedTree = (
+          <div>
+            <div><FirstLevel/><span></span></div>
+            <SecondLevel/>
+            <span><SecondLevel/><FirstLevel/></span>
+          </div>
+        );
+        domNodes = domNodesFromComponent(renderedTree);
+//console.log(domNodes.map(n => n.type));        
+      });
+      it('the count is correct', () => { assert.equal(domNodes.length, 12); });
+      //it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
+      //it('3rd node is `h1`', () => { assert.equal(domNodes[2].type, 'h1'); });
+      //it('4th node is `span`', () => { assert.equal(domNodes[3].type, 'span'); });
+      //it('5th node is `span`', () => { assert.equal(domNodes[4].type, 'span'); });
+      //it('6th node is `span`', () => { assert.equal(domNodes[5].type, 'span'); });
+      //it('7th node is `b`', () => { assert.equal(domNodes[6].type, 'b'); });
+    });
+    
   });
   
 });
