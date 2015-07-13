@@ -16,23 +16,23 @@ export default class DomNodes {
   }
 }
 
+function _renderIfNeeded(component) {
+  if (DomNode.isDomNode(component)) {
+    return component;
+  }
+  const prototypeOfComponent = Reflect.getPrototypeOf(component.type);
+  if (Object.is(prototypeOfComponent, React.Component)) {
+    return render(component);
+  }
+}
+
 function renderRecursively(componentToRender) {
   const rendered = render(componentToRender);
   if (rendered.props  && rendered.props.children){
     if (Array.isArray(rendered.props.children)) {
-      rendered.props.children[1] = render(rendered.props.children[1]);
-      
-      if (rendered.props.children.length > 3) {
-        const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children[3].type);
-        if (Object.is(prototypeOfComponent, React.Component)) {
-          rendered.props.children[3] = render(rendered.props.children[3]);
-        }
-      }
+      rendered.props.children = rendered.props.children.map(_renderIfNeeded);
     } else if (!DomNode.isDomNode(rendered.props.children)) {
-      const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children.type);
-      if (Object.is(prototypeOfComponent, React.Component)) {
-        rendered.props.children = render(rendered.props.children);
-      }
+      rendered.props.children = _renderIfNeeded(rendered.props.children);
     }
   }
   return rendered;
