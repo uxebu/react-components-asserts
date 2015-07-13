@@ -56,7 +56,7 @@ describe('find dom nodes', function() {
         it('second node is the 1st node on the first level', () => { assert.equal(domNodes[1].type, 'b'); });
         it('third node is the 2nd node on the first level', () => { assert.equal(domNodes[2].type, 'span'); });
       });
-      describe.only('many DOM nodes, various nestings', function() {
+      describe('many DOM nodes, various nestings', function() {
         let domNodes;
         beforeEach(function() {
           let renderedTree = (
@@ -112,26 +112,27 @@ describe('find dom nodes', function() {
     
     describe('ensure order in rendered tree', function() {
       class FirstLevel extends React.Component { render() { return (<h1></h1>); } }
-      class SecondLevel extends React.Component { render() { return <span><FirstLevel/><b/></span>; } }
+      class SecondLevel extends React.Component { render() { return <p><FirstLevel/><b/></p>; } }
       let domNodes;
       beforeEach(function() {
         let renderedTree = (
           <div>
-            <div><FirstLevel/><span></span></div>
+            <span><FirstLevel/><a/></span>
             <SecondLevel/>
-            <span><SecondLevel/><FirstLevel/></span>
+            <blockquote><SecondLevel/><FirstLevel/></blockquote>
           </div>
         );
         domNodes = domNodesFromComponent(renderedTree);
-//console.log(domNodes.map(n => n.type));        
       });
       it('the count is correct', () => { assert.equal(domNodes.length, 12); });
-      //it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
-      //it('3rd node is `h1`', () => { assert.equal(domNodes[2].type, 'h1'); });
-      //it('4th node is `span`', () => { assert.equal(domNodes[3].type, 'span'); });
-      //it('5th node is `span`', () => { assert.equal(domNodes[4].type, 'span'); });
-      //it('6th node is `span`', () => { assert.equal(domNodes[5].type, 'span'); });
-      //it('7th node is `b`', () => { assert.equal(domNodes[6].type, 'b'); });
+      it('first node is the outer node', () => { assert.equal(domNodes[0].type, 'div'); });
+      it('3rd node is `span`', () => { assert.equal(domNodes[1].type, 'span'); });
+      it('4th node is `h1`', () => { assert.equal(domNodes[2].type, 'h1'); });
+      it('5th node is `a`', () => { assert.equal(domNodes[3].type, 'a'); });
+      it('6th node is `p`', () => { assert.equal(domNodes[4].type, 'p'); });
+      it('7th node is `h1`', () => { assert.equal(domNodes[5].type, 'h1'); });
+      it('8th node is `b`', () => { assert.equal(domNodes[6].type, 'b'); });
+      it('9th node is `blockquote`', () => { assert.equal(domNodes[7].type, 'blockquote'); });
     });
     
   });
