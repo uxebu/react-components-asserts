@@ -11,9 +11,15 @@ describe('renders(No)DomNodeWithTextContent', function() {
       const component = <b></b>;
       rendersNoDomNodeWithTextContent(component, 'bold');
     });
-    it('finds one', function() {
-      const component = <b>bold</b>;
-      rendersDomNodeWithTextContent(component, 'bold');
+    describe('finds one', function() {
+      it('when its the only node', function() {
+        const component = <b>bold</b>;
+        rendersDomNodeWithTextContent(component, 'bold');
+      });
+      it('and has another sibling', function() {
+        const component = <b>bold<b/></b>;
+        rendersDomNodeWithTextContent(component, 'bold');
+      });
     });
   });
 });

@@ -19,6 +19,9 @@ export default class DomNode {
   }
   hasTextContent(textContent) {
     const children = this._renderedNode.props.children;
+    if (Array.isArray(children)) {
+      return children.some(child => child === textContent);
+    }
     return children === textContent;
   }
   getAttributeValue(attributeName) {
