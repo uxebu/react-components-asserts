@@ -11,13 +11,25 @@ export function rendersNoDomNodeWithAttrAndValue(component, attributeName, expec
   const anyFound = _rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue);
   assert.equal(anyFound, false);
 }
+export function rendersDomNodeWithTextContent(component, textContent) {
+  var found = _findsOneWithTextContent(component, textContent);
+  assert.equal(found, true);
+}
+export function rendersNoDomNodeWithTextContent(component, textContent) {
+  var found = _findsOneWithTextContent(component, textContent);
+  assert.equal(found, false);
+}
+
 
 function domNodesFromComponent(component) {
   return fromComponent(component).domNodes;
 }
-
+function _findsOneWithTextContent(component, textContent) {
+  const domNodes = domNodesFromComponent(component);
+  return domNodes.some(domNode => domNode.hasTextContent(textContent));
+}
 function _rendersDomNodeWithAttrAndValue(component, attributeName, expectedValue) {
-  let domNodes = domNodesFromComponent(component);
+  const domNodes = domNodesFromComponent(component);
   return domNodes
     .some(domNode => domNode.hasAttributeWithValue(attributeName, expectedValue))
 }

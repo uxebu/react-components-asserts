@@ -1,8 +1,9 @@
 import React from 'react/addons';
 import assert from 'assert';
-//import {
-//  rendersDomNodeWithTextContent
-//} from '../src/dom-asserts.js';
+import {
+  rendersDomNodeWithTextContent,
+  rendersNoDomNodeWithTextContent
+} from '../../src/dom-asserts.js';
 
 describe('renders(No)DomNodeWithTextContent', function() {
   
@@ -31,22 +32,3 @@ describe('renders(No)DomNodeWithTextContent', function() {
   });
   
 });
-
-function _findsOne(component, textContent) {
-  const domNodes = domNodesFromComponent(component);
-  return domNodes.some(domNode => domNode.hasTextContent(textContent));
-}
-function rendersDomNodeWithTextContent(component, textContent) {
-  var found = _findsOne(component, textContent);
-  assert.equal(found, true);
-}
-
-function rendersNoDomNodeWithTextContent(component, textContent) {
-  var found = _findsOne(component, textContent);
-  assert.equal(found, false);
-}
-
-import {fromComponent} from '../../src/domnodes.js';
-function domNodesFromComponent(component) {
-  return fromComponent(component).domNodes;
-}
