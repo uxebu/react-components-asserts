@@ -143,5 +143,11 @@ describe('find dom nodes', function() {
     });
     
   });
+
+  describe('inherited components', function() {
+    it('over two levels', function() {
+      // ???
+    });
+  });
   
 });
