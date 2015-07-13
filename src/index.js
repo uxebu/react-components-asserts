@@ -1,7 +1,13 @@
 import {
-  rendersDomNodeWithAttrAndValue
+  rendersDomNodeWithAttrAndValue,
+  rendersNoDomNodeWithAttrAndValue,
+  rendersDomNodeWithTextContent,
+  rendersNoDomNodeWithTextContent
 } from './dom-asserts.js';
 
 export {
-  rendersDomNodeWithAttrAndValue
+  rendersDomNodeWithAttrAndValue,
+  rendersNoDomNodeWithAttrAndValue,
+  rendersDomNodeWithTextContent,
+  rendersNoDomNodeWithTextContent
 };
