@@ -81,9 +81,15 @@ describe('find dom nodes', function() {
   });
 
   describe('finds in nested components', function() {
+    class InnerComponent extends React.Component { render() { return <span></span>; } }
     it('one nesting level deep', function() {
-      class InnerComponent extends React.Component { render() { return <span></span>; } }
       assert.equal(domNodesFromComponent(<b><InnerComponent/></b>).length, 2);
+    });
+    it('one nesting level, different children', function() {
+      assert.equal(domNodesFromComponent(<b><b></b><InnerComponent/></b>).length, 3);
+    });
+    it('one nesting level, multiple different children', function() {
+      assert.equal(domNodesFromComponent(<b><b/><InnerComponent/><b/><InnerComponent/></b>).length, 5);
     });
   });
   

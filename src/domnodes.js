@@ -18,14 +18,21 @@ export default class DomNodes {
 
 function renderRecursively(componentToRender) {
   const rendered = render(componentToRender);
-  if (rendered.props  && 
-    rendered.props.children && 
-    !Array.isArray(rendered.props.children) && 
-    !DomNode.isDomNode(rendered.props.children
-  )) {
-    const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children.type);
-    if (Object.is(prototypeOfComponent, React.Component)) {
-      rendered.props.children = render(rendered.props.children);
+  if (rendered.props  && rendered.props.children){
+    if (Array.isArray(rendered.props.children)) {
+      rendered.props.children[1] = render(rendered.props.children[1]);
+      
+      if (rendered.props.children.length > 3) {
+        const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children[3].type);
+        if (Object.is(prototypeOfComponent, React.Component)) {
+          rendered.props.children[3] = render(rendered.props.children[3]);
+        }
+      }
+    } else if (!DomNode.isDomNode(rendered.props.children)) {
+      const prototypeOfComponent = Reflect.getPrototypeOf(rendered.props.children.type);
+      if (Object.is(prototypeOfComponent, React.Component)) {
+        rendered.props.children = render(rendered.props.children);
+      }
     }
   }
   return rendered;
