@@ -1,10 +1,10 @@
 import assert from 'assert';
 import React from 'react/addons';
-const TestUtils = React.addons.TestUtils;
-import ReactComponent from '../src/reactcomponent.js';
+import Renderer from '../src/renderer.js';
 
-function domNodesFromComponent(component) {
-  return fromComponent(component).domNodes;
+function findReactComponent(component) {
+  let renderer = Renderer.withComponent(component);
+  return renderer.allReactComponents();
 }
 
 describe('find react components', function() {
@@ -35,9 +35,3 @@ describe('find react components', function() {
     });
   });
 });
-
-import Renderer from '../src/renderer.js';
-function findReactComponent(component) {
-  let renderer = Renderer.withComponent(component);
-  return renderer.allReactComponents();
-}
