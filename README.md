@@ -66,7 +66,7 @@ describe('renders the price', function() {
     rendersDomNodeWithTextContent(<Article />, '42');
   });
   it('in <OtherComp>', function() {
-    rendersDomNodeWithAttrAndValue(<OtherComp />, '42');
+    rendersDomNodeWithTextContent(<OtherComp />, '42');
   });
 });
 ```
