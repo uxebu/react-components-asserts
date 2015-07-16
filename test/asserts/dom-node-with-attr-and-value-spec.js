@@ -50,6 +50,3 @@ describe('renders(No)DomNodeWithAttrAndValue', function() {
   });
   
 });
-
-//rendersDomNodeAttributeWithValue
-//rendersDomNodeWithInnerText
