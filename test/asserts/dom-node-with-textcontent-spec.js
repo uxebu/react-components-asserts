@@ -84,19 +84,18 @@ describe('renders(No)DomNodeWithTextContent', function() {
     });
   });
 
-  describe('finds multiple rendered subcomponents', function() {
-    it('', function() {
-      const numbers = [23, 42];
-      const NumberComponent = class extends React.Component {
-        render() {return <span>{this.props.number}</span>;}
-      };
-      const component = (
-        <b>
-          {numbers.map(number => <NumberComponent number={number} />)}
-        </b>
-      );
-      rendersDomNodeWithTextContent(component, numbers[1]);
-    });
+  it('finds rendered subcomponents', function() {
+    const numbers = [23, 42];
+    const NumberComponent = class extends React.Component {
+      render() {return <span>{this.props.number}</span>;}
+    };
+    const component = (
+      <b>
+        <NumberComponent number={numbers[0]} />
+        <NumberComponent number={numbers[1]} />
+      </b>
+    );
+    rendersDomNodeWithTextContent(component, numbers[1]);
   });
   
 });
