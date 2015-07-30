@@ -21,6 +21,11 @@ describe('find dom nodes', function() {
       let component = <div><NotDomNode></NotDomNode></div>;
       assert.equal(domNodesFromComponent(component).length, 1);
     });
+    it('if inner node is textContent, it does not count', function() {
+      class ContentNode extends React.Component { render() { return <b>1</b>; } }
+      let component = <div><ContentNode/></div>;
+      assert.equal(domNodesFromComponent(component).length, 2);
+    });
   });
   
   describe('returns all nodes', function() {
