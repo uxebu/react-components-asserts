@@ -1,6 +1,6 @@
 {
   "name": "react-components-asserts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Asserts for react.js components using the shallow renderer.",
   "main": "src/index.js",
   "scripts": {
