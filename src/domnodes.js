@@ -6,11 +6,16 @@ export default class DomNodes {
   
   static fromComponent(component) {
     const renderedTree = Renderer.withComponent(component).renderedTree();
+    return DomNodes.fromRenderedTree(renderedTree);
+  }
+  
+  static fromRenderedTree(renderedTree) {
     let instance = new DomNodes();
     instance.domNodes = allNodes(renderedTree)
       .filter(DomNode.isDomNode)
-      .map(domNode => DomNode.fromRenderedNode(domNode));
+      .map(DomNode.fromRenderedNode);
     return instance;
+    
   }
   
 }
