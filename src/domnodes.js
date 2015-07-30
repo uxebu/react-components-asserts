@@ -15,7 +15,6 @@ export default class DomNodes {
       .filter(DomNode.isDomNode)
       .map(DomNode.fromRenderedNode);
     return instance;
-    
   }
   
 }
