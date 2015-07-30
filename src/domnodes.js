@@ -11,7 +11,7 @@ export default class DomNodes {
   
   static fromRenderedTree(renderedTree) {
     let instance = new DomNodes();
-    instance.domNodes = allNodes(renderedTree)
+    instance.domNodes = flattenAllNodes(renderedTree)
       .filter(DomNode.isDomNode)
       .map(DomNode.fromRenderedNode);
     return instance;
@@ -35,6 +35,6 @@ function allChildren({props = {}}) {
   return all;
 }
 
-function allNodes(tree) {
+function flattenAllNodes(tree) {
   return [tree, ...allChildren(tree)];
 }
