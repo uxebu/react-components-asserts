@@ -5,9 +5,9 @@ import Renderer from './renderer.js';
 export default class DomNodes {
   
   static fromComponent(component) {
-    const renderedTree = Renderer.withComponent(component).allDomNodes();
+    const allRenderedNodes = Renderer.withComponent(component).allRenderedNodes();
     let instance = new DomNodes();
-    instance.domNodes = allNodes(renderedTree)
+    instance.domNodes = allNodes(allRenderedNodes)
       .map(domNode => DomNode.fromRenderedNode(domNode));
     return instance;
   }

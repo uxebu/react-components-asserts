@@ -18,9 +18,9 @@ export default class Renderer {
     return this._allReactComponents;
   }
   
-  allDomNodes() {
+  allRenderedNodes() {
     this.render();
-    return this._allDomNodes;
+    return this._allRenderedNodes;
   }
   
   render() {
@@ -52,7 +52,7 @@ export default class Renderer {
     }
   
     let allReactComponents = [];
-    this._allDomNodes = renderRecursively(this.component);
+    this._allRenderedNodes = renderRecursively(this.component);
     this._allReactComponents = allReactComponents;
     this._rendered = true;
   }
