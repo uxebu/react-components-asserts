@@ -4,6 +4,9 @@ const TestUtils = React.addons.TestUtils;
 export default class ReactComponent {
   
   static isReactComponent(maybeComponent) {
+    if (typeof maybeComponent === 'undefined') {
+      return false;
+    }
     if (typeof maybeComponent.type !== 'function') {
       return false;
     }

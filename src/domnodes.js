@@ -22,7 +22,7 @@ export default class DomNodes {
 const ensureToBeArray = (mayBeArray) => Array.isArray(mayBeArray) ? mayBeArray : [mayBeArray];
 const flatten = (arr, merged) => [...arr, ...merged];
 
-function allChildren({props = {}}) {
+function allChildren({props = {}} = {}) {
   if (!props.children) {
     return [];
   }

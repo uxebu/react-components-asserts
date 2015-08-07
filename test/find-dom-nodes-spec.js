@@ -26,6 +26,16 @@ describe('find dom nodes', function() {
       let component = <div><ContentNode/></div>;
       assert.equal(domNodesFromComponent(component).length, 2);
     });
+    describe('if a child is undefined', function() {
+      // important is the space after `{void 0}`!!!
+      const comp = <b>{void 0} </b>;
+      it('wont bail', function() {
+        assert.doesNotThrow(() => {domNodesFromComponent(comp)});
+      });
+      it('finds the right number of children', function() {
+        assert.equal(domNodesFromComponent(comp).length, 1);
+      });
+    });
   });
   
   describe('returns all nodes', function() {

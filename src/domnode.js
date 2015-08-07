@@ -7,7 +7,7 @@ export default class DomNode {
     return domNode;
   }
   static isDomNode(node) {
-    return node.type in React.DOM;
+    return node && node.type in React.DOM;
   }
   
   get type() {
