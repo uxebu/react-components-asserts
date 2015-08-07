@@ -97,5 +97,14 @@ describe('renders(No)DomNodeWithTextContent', function() {
     );
     rendersDomNodeWithTextContent(component, numbers[1]);
   });
+
+  it('finds multile textContents combined in a component', function() {
+    const kata = {name:'fourty-two'};
+    const NumberComponent = class extends React.Component {
+      render() {return <span><b>#{kata.id} {kata.name}</b></span>;}
+    };
+    const component = <NumberComponent />;
+    rendersDomNodeWithTextContent(component, `#undefined ${kata.name}`);
+  });
   
 });

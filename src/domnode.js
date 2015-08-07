@@ -20,7 +20,7 @@ export default class DomNode {
   hasTextContent(textContent) {
     const children = this._renderedNode.props.children;
     if (Array.isArray(children)) {
-      if (children.join('') === textContent) {
+      if (children.map(child => ''+child).join('') === textContent) {
         // e.g. ['(', '42', ')'] is checked as '(42)'
         return true;
       }
